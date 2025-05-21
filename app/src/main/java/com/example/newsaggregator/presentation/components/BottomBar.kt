@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import com.example.newsaggregator.presentation.model.NavItem
 import com.example.newsaggregator.presentation.navigation.NavDestination
@@ -60,7 +61,11 @@ private fun RowScope.NavigationItem(
         selected = selectedItem,
         onClick = {
             navController.navigate(screen.route){
-
+                popUpTo(navController.graph.findStartDestination().id) {
+                    saveState = true
+                }
+                launchSingleTop = true
+                restoreState = true
             }
         },
         icon = {

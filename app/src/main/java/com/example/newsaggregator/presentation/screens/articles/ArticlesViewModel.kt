@@ -1,16 +1,18 @@
 package com.example.newsaggregator.presentation.screens.articles
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.newsaggregator.presentation.screens.articles.model.NewsArticleItem
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ArticlesViewModel : ViewModel() {
+@HiltViewModel
+class ArticlesViewModel @Inject constructor() : ViewModel() {
     private val _uaState = MutableStateFlow(ArticlesState())
     val uiState: StateFlow<ArticlesState> = _uaState
 
@@ -21,7 +23,6 @@ class ArticlesViewModel : ViewModel() {
             testInit()
             _uaState.value = _uaState.value.copy(isLoading = false)
         }
-        Log.d("AAA","init viewModel")
     }
 
     fun handleEvent(event: ArticlesEvent) {
@@ -32,14 +33,15 @@ class ArticlesViewModel : ViewModel() {
         }
     }
 
-    private fun searchByTag(tag: String){
+    private fun searchByTag(tag: String) {
         // TODO()
     }
 
-    private fun searchByQuery(tag: String){
+    private fun searchByQuery(tag: String) {
         // TODO()
     }
-    private fun sortByTime(){
+
+    private fun sortByTime() {
 
         // TODO()
     }

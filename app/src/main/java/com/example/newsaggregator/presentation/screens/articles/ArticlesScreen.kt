@@ -24,6 +24,7 @@ import com.example.newsaggregator.R
 import com.example.newsaggregator.presentation.components.CustomBottomBar
 import com.example.newsaggregator.presentation.components.NewsArticleCard
 import com.example.newsaggregator.presentation.components.TagsContainer
+import com.example.newsaggregator.presentation.model.NavItem
 import com.example.newsaggregator.presentation.navigation.NavDestination
 import com.example.newsaggregator.presentation.ui.theme.AppTheme
 
@@ -58,6 +59,7 @@ fun ArticlesScreen(
             )
         }
     ) { paddingValues ->
+        Log.d("AAA", "Scaffold init ArticlesScreen")
 
         ArticlesShimmerEffect(
             isLoading = state.isLoading,
@@ -105,7 +107,11 @@ fun ArticlesScreen(
 
                 items(state.newsArticleItems) { newsItem ->
                     NewsArticleCard(
-                        onClick = { /** TODO() реализовть переход как добавлю навигацию */ },
+                        onClick = {
+
+                            navController.navigate(route = NavItem.Article.route)
+                            /** TODO() реализовть переход как добавлю навигацию */
+                                  },
                         titleArticle = newsItem.title,
                         descriptionArticle = stringResource(
                             R.string.image_article,
