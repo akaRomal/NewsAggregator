@@ -1,4 +1,4 @@
-package com.example.newsaggregator.ui.theme
+package com.example.newsaggregator.presentation.ui.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.compositionLocalOf
@@ -20,8 +20,8 @@ data class AppShapes(
 )
 
 val shapes = AppShapes(
-    card = RoundedCornerShape(8.dp),
-    image = RoundedCornerShape(12.dp),
+    card = RoundedCornerShape(12.dp),
+    image = RoundedCornerShape(8.dp),
 )
 
 val LocalAppShapes = compositionLocalOf {

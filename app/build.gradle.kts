@@ -6,7 +6,7 @@ plugins {
     id("kotlin-kapt")
     id("androidx.room")
     alias(libs.plugins.ksp)
-    alias(libs.plugins.hilt)
+    alias(libs.plugins.google.hilt.andorid)
     alias(libs.plugins.androidx.navigation.safeargs)
 }
 
@@ -75,7 +75,8 @@ dependencies {
     implementation(libs.retrofit2.kotlinx.serialization.converter)
 
     // coil
-    implementation(libs.coil)
+    implementation(libs.coil.copmose)
+    implementation(libs.coil.network.okhttp)
 
     // room
     implementation(libs.androidx.room.runtime)
@@ -84,8 +85,16 @@ dependencies {
     ksp(libs.androidx.room.compiler)
 
     // hilt
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
+    implementation(libs.google.dagger.hilt.android)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.google.dagger.hilt.navigation.compose)
+    ksp(libs.google.dagger.hilt.android.compiler)
+
+    //Navigation
+    implementation(libs.androidx.navigation.compose)
+
+    //Serialization json
+    implementation(libs.kotlinx.serialization.json)
 
     // navigation
     implementation(libs.androidx.navigation.fragment.ktx)

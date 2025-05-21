@@ -1,11 +1,14 @@
-package com.example.newsaggregator.ui
+package com.example.newsaggregator.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.example.newsaggregator.ui.theme.NewsAggregatorTheme
+import com.example.newsaggregator.presentation.screens.MainScreen
+import com.example.newsaggregator.presentation.ui.theme.NewsAggregatorTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -13,6 +16,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             NewsAggregatorTheme {
+                MainScreen()
             }
         }
     }

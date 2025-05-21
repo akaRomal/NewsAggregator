@@ -1,4 +1,4 @@
-package com.example.newsaggregator.ui.theme
+package com.example.newsaggregator.presentation.ui.theme
 
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.graphics.Color
@@ -28,8 +28,9 @@ val Gray40 = Color(0xFF707474) // shimmer highlight
  * @property onPrimary Цвет содержимого на фоне primary.
  * @property background Фоновый цвет экрана.
  * @property onBackground Цвет содержимого на фоне background.
- * @property surface Фоновый цвет поверхностей (Card, BottomSheet и т.д.).
- * @property onSurface Цвет содержимого на фоне surface.
+ * @property surfacePrimary Фоновый цвет поверхностей (Card, BottomSheet и т.д.).
+ * @property onSurfacePrimary Цвет содержимого на фоне surface.
+ * @property onSurfaceSecondary Цвет содержимого на фоне surface.
  * @property surfaceVariant Альтернативный фон поверхностей (фон тэгов).
  * @property onSurfaceVariant Цвет содержимого на фоне surfaceVariant.
  * @property outline Цвет обводок и границ.
@@ -41,27 +42,17 @@ data class AppColorScheme(
     val onPrimary: Color,
     val background: Color,
     val onBackground: Color,
-    val surface: Color,
-    val onSurface: Color,
+    val surfacePrimary: Color,
+    val onSurfacePrimary: Color,
+    val onSurfaceSecondary: Color,
+    val surfaceTertiary: Color,
+    val onSurfaceTertiary: Color,
     val surfaceVariant: Color,
     val onSurfaceVariant: Color,
     val outline: Color,
+    val icon: Color,
     val shimmerBase: Color,
     val shimmerHighlight: Color,
-)
-
-val DarkColorScheme = AppColorScheme(
-    primary = Gray90,
-    onPrimary = White100,
-    background = Black90,
-    onBackground = White100,
-    surface = Gray90,
-    onSurface = White100,
-    surfaceVariant = Gray80,
-    onSurfaceVariant = White100,
-    outline = Gray60,
-    shimmerBase = Gray50,
-    shimmerHighlight = Gray40,
 )
 
 val LightColorScheme = AppColorScheme(
@@ -69,13 +60,35 @@ val LightColorScheme = AppColorScheme(
     onPrimary = Black,
     background = White,
     onBackground = Black,
-    surface = Black05,
-    onSurface = Black,
+    surfacePrimary = Black05,
+    onSurfacePrimary = Black,
+    onSurfaceSecondary = Black30,
+    surfaceTertiary = Black30,
+    onSurfaceTertiary = Black,
     surfaceVariant = Black15,
     onSurfaceVariant = Black,
     outline = Black30,
+    icon = Black05.copy(alpha = 0.9f),
     shimmerBase = Gray30,
     shimmerHighlight = Gray75,
+)
+
+val DarkColorScheme = AppColorScheme(
+    primary = Gray90,
+    onPrimary = White100,
+    background = Black90,
+    onBackground = White100,
+    surfacePrimary = Gray90,
+    onSurfacePrimary = White100,
+    onSurfaceSecondary = White100,
+    surfaceTertiary = White100,
+    onSurfaceTertiary = Black90,
+    surfaceVariant = Gray80,
+    onSurfaceVariant = White100,
+    outline = Gray60,
+    icon = Gray90.copy(alpha = 0.9f),
+    shimmerBase = Gray50,
+    shimmerHighlight = Gray40,
 )
 
 val LocalAppColorScheme = compositionLocalOf {

@@ -1,9 +1,9 @@
-package com.example.newsaggregator.ui.theme
+package com.example.newsaggregator.presentation.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import com.example.newsaggregator.ui.theme.AppTheme.typography
+import com.example.newsaggregator.presentation.ui.theme.AppTheme.typography
 
 
 @Composable
