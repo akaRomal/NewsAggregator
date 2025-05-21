@@ -1,6 +1,5 @@
 package com.example.newsaggregator.presentation.screens.articles
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,7 +23,6 @@ import com.example.newsaggregator.R
 import com.example.newsaggregator.presentation.components.CustomBottomBar
 import com.example.newsaggregator.presentation.components.NewsArticleCard
 import com.example.newsaggregator.presentation.components.TagsContainer
-import com.example.newsaggregator.presentation.model.NavItem
 import com.example.newsaggregator.presentation.navigation.NavDestination
 import com.example.newsaggregator.presentation.ui.theme.AppTheme
 
@@ -35,8 +33,6 @@ fun ArticlesScreen(
     viewModel: ArticlesViewModel = hiltViewModel<ArticlesViewModel>()
 ) {
     val state by viewModel.uiState.collectAsState()
-    Log.d("AAA", "init ArticlesScreen")
-
 
     Scaffold(
         modifier = Modifier
@@ -55,11 +51,9 @@ fun ArticlesScreen(
             CustomBottomBar(
                 selectItem = NavDestination.Home,
                 navController = navController,
-//                modifier = TODO()
             )
         }
     ) { paddingValues ->
-        Log.d("AAA", "Scaffold init ArticlesScreen")
 
         ArticlesShimmerEffect(
             isLoading = state.isLoading,
@@ -108,10 +102,8 @@ fun ArticlesScreen(
                 items(state.newsArticleItems) { newsItem ->
                     NewsArticleCard(
                         onClick = {
-
-                            navController.navigate(route = NavItem.Article.route)
                             /** TODO() реализовть переход как добавлю навигацию */
-                                  },
+                        },
                         titleArticle = newsItem.title,
                         descriptionArticle = stringResource(
                             R.string.image_article,
