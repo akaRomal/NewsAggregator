@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,9 +27,9 @@ fun NewsArticleCard(
     descriptionArticle: String,
     date: String,
     author: String,
+    tags: List<String>,
     modifier: Modifier = Modifier,
-    tag: String? = null,
-    onClickTag: (() -> Unit)? = null,
+    onClickTag: (String) -> Unit = {},
     onClickBookmark: (() -> Unit)? = null,
     bookmarked: Boolean = false,
     imageUrl: String? = null,
@@ -46,11 +48,15 @@ fun NewsArticleCard(
             horizontalArrangement = Arrangement.spacedBy(AppTheme.size.small)
         ) {
             Column(modifier = Modifier.weight(AppTheme.size.fullWidth)) {
-                tag?.let {
-                    TagsContainer(
-                        onClick = onClickTag ?: {},
-                        text = it
-                    )
+                if (tags.isNotEmpty()) {
+                    LazyRow(horizontalArrangement = Arrangement.spacedBy(AppTheme.size.micro)) {
+                        items(tags) {
+                            TagsContainer(
+                                onClick = { onClickTag(it) },
+                                text = it
+                            )
+                        }
+                    }
                 }
                 Text(
                     text = titleArticle,

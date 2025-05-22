@@ -22,6 +22,11 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "BASE_URL_API_SERVER", "\"https://www.theguardian.com\"")
+        buildConfigField("Long", "TIMEOUT_CONNECT", "5000L")
+        buildConfigField("Long", "TIMEOUT_READ", "10000L")
+        buildConfigField("Long", "TIMEOUT_WRITE", "5000L")
     }
 
     buildTypes {
@@ -42,6 +47,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     room {
         schemaDirectory("$projectDir/schemas")
@@ -73,6 +79,9 @@ dependencies {
     // retrofit
     implementation(libs.retrofit2)
     implementation(libs.retrofit2.kotlinx.serialization.converter)
+
+    //Interceptore
+    implementation (libs.okhttp.logging.interceptore)
 
     // coil
     implementation(libs.coil.copmose)
@@ -106,4 +115,7 @@ dependencies {
 
     // recycler
     implementation(libs.androidx.recyclerview)
+
+    // jsoup
+    implementation (libs.org.jsoup)
 }

@@ -52,7 +52,7 @@ fun Image(
 
             is AsyncImagePainter.State.Error -> {
                 Image(
-                    imageVector= Icons.Outlined.Close ,
+                    imageVector = Icons.Outlined.Close,
                     contentDescription = description,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.fillMaxSize()

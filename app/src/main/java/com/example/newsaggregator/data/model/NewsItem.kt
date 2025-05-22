@@ -1,11 +1,11 @@
-package com.example.newsaggregator.presentation.screens.articles.model
+package com.example.newsaggregator.data.model
 
-data class NewsArticleItem(
+data class NewsItem(
     val title: String = "",
     val description: String = "",
     val imageUrl: String = "",
     val articleUrl: String = "",
-    val tag: List<String> = emptyList(),
+    val tags: List<String> = emptyList(),
     val author: String = "",
     val date: String = "",
 )

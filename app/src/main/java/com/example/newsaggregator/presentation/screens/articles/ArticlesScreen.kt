@@ -1,5 +1,6 @@
 package com.example.newsaggregator.presentation.screens.articles
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,7 +27,7 @@ import com.example.newsaggregator.presentation.components.TagsContainer
 import com.example.newsaggregator.presentation.navigation.NavDestination
 import com.example.newsaggregator.presentation.ui.theme.AppTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun ArticlesScreen(
     navController: NavHostController,
@@ -75,10 +76,11 @@ fun ArticlesScreen(
                 }
 
                 if (!state.tagCloudItems.isEmpty()) {
-                    item {
+                    stickyHeader {
                         LazyRow(
                             modifier = Modifier
                                 .fillMaxWidth()
+                                .background(AppTheme.colorsScheme.background)
                                 .padding(vertical = AppTheme.size.small),
                             horizontalArrangement = Arrangement.spacedBy(AppTheme.size.small)
                         ) {
@@ -105,18 +107,15 @@ fun ArticlesScreen(
                             /** TODO() реализовть переход как добавлю навигацию */
                         },
                         titleArticle = newsItem.title,
-                        descriptionArticle = stringResource(
-                            R.string.image_article,
-                            newsItem.description
-                        ),
+                        descriptionArticle = newsItem.description,
                         date = newsItem.date,
                         author = newsItem.author,
+                        tags = newsItem.tag,
                         modifier = Modifier.padding(horizontal = AppTheme.size.medium),
-                        tag = newsItem.tag,
                         onClickTag = {
                             viewModel.handleEvent(
                                 ArticlesEvent.SearchByTag(
-                                    newsItem.tag
+                                    it
                                 )
                             )
                         },

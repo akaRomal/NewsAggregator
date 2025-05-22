@@ -6,6 +6,7 @@ data class ArticlesState(
     val isLoading: Boolean = true,
     val isNetworkError: Boolean = false,
     val isTimeoutError: Boolean = false,
+    val isServerError: Boolean = false,
     val isUnknownError: Boolean = false,
     val tagCloudItems: List<String> = emptyList(),
     val selectedTag: String = "",
