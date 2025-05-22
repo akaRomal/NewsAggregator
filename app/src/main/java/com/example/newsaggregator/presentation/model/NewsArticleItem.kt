@@ -1,4 +1,4 @@
-package com.example.newsaggregator.presentation.screens.articles.model
+package com.example.newsaggregator.presentation.model
 
 data class NewsArticleItem(
     val title: String = "",

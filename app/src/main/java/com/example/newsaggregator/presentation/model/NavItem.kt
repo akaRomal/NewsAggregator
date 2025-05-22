@@ -17,20 +17,20 @@ sealed interface NavItem {
 
     data object Home : NavItem {
         override val route: NavDestination
-            get() = NavDestination.Home
+            get() = NavDestination.Home()
         override val label: Int
             get() = R.string.btn_menu_home
         override val icon: Int
             get() = R.drawable.ic_home
     }
 
-    data object Article : NavItem {
+    data object Search : NavItem {
         override val route: NavDestination
-            get() = NavDestination.Article
+            get() = NavDestination.Search
         override val label: Int
-            get() = R.string.btn_menu_article
+            get() = R.string.btn_menu_search
         override val icon: Int
-            get() = R.drawable.ic_list
+            get() = R.drawable.ic_search
     }
 
     data object Bookmark : NavItem {
@@ -43,6 +43,6 @@ sealed interface NavItem {
     }
 
     companion object {
-        fun getItemsBottomBar() = listOf(Home, Article, Bookmark)
+        fun getItemsBottomBar() = listOf(Home, Search, Bookmark)
     }
 }

@@ -13,12 +13,15 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import com.example.newsaggregator.R
 import com.example.newsaggregator.presentation.components.CustomBottomBar
@@ -31,26 +34,37 @@ import com.example.newsaggregator.presentation.ui.theme.AppTheme
 @Composable
 fun ArticlesScreen(
     navController: NavHostController,
+    modifier: Modifier = Modifier,
+    query: String? = null,
     viewModel: ArticlesViewModel = hiltViewModel<ArticlesViewModel>()
 ) {
     val state by viewModel.uiState.collectAsState()
-
+    val topBarColors = TopAppBarDefaults.topAppBarColors().copy(
+        containerColor = AppTheme.colorsScheme.secondary,
+        navigationIconContentColor = AppTheme.colorsScheme.onSecondary,
+        titleContentColor = AppTheme.colorsScheme.onSecondary,
+        actionIconContentColor = AppTheme.colorsScheme.onSecondary,
+    )
     Scaffold(
-        modifier = Modifier
+        modifier = modifier
             .background(AppTheme.colorsScheme.background)
             .fillMaxSize(),
         topBar = {
-            TopAppBar(title = {
-                Text(
-                    text = "App Bar", modifier = Modifier
-                        .fillMaxSize()
-                        .background(AppTheme.colorsScheme.outline)
-                )
-            })
+            TopAppBar(
+                title = {
+                    Text(
+                        text = stringResource(id = R.string.text_top_bar_home),
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.Center,
+                        style = AppTheme.typography.headlineLarge
+                    )
+                },
+                colors = topBarColors
+            )
         },
         bottomBar = {
             CustomBottomBar(
-                selectItem = NavDestination.Home,
+                selectItem = NavDestination.Home(),
                 navController = navController,
             )
         }
@@ -104,14 +118,22 @@ fun ArticlesScreen(
                 items(state.newsArticleItems) { newsItem ->
                     NewsArticleCard(
                         onClick = {
-                            /** TODO() реализовть переход как добавлю навигацию */
+                            navController.navigate(
+                                NavDestination.Reader(url = newsItem.articleUrl),
+                            ) {
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    saveState = true
+                                }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
                         },
                         titleArticle = newsItem.title,
                         descriptionArticle = newsItem.description,
                         date = newsItem.date,
                         author = newsItem.author,
-                        tags = newsItem.tag,
                         modifier = Modifier.padding(horizontal = AppTheme.size.medium),
+                        tags = newsItem.tag,
                         onClickTag = {
                             viewModel.handleEvent(
                                 ArticlesEvent.SearchByTag(

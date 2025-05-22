@@ -5,11 +5,14 @@ import androidx.room.Room
 import com.example.newsaggregator.BuildConfig
 import com.example.newsaggregator.data.local.dao.AppDatabase
 import com.example.newsaggregator.data.local.dao.ArticlesDao
+import com.example.newsaggregator.data.local.dao.BookmarkDao
 import com.example.newsaggregator.data.local.dao.TagsDao
 import com.example.newsaggregator.data.mapper.Mapper
 import com.example.newsaggregator.data.mapper.MapperImpl
 import com.example.newsaggregator.data.remote.rss.RssFeed
+import com.example.newsaggregator.data.repository.BookmarkRepositoryImpl
 import com.example.newsaggregator.data.repository.NewsRepositoryImpl
+import com.example.newsaggregator.domain.repository.BookmarkRepository
 import com.example.newsaggregator.domain.repository.NewsRepository
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
@@ -43,6 +46,19 @@ object DataModule {
             mapper = mapper,
             articlesDao = articlesDao,
             tagsDao = tagsDao
+        )
+    }
+
+
+    @Singleton
+    @Provides
+    fun provideBookmarkRepository(
+        bookmarkDao: BookmarkDao,
+        mapper: Mapper,
+    ): BookmarkRepository {
+        return BookmarkRepositoryImpl(
+            bookmarkDao = bookmarkDao,
+            mapper = mapper
         )
     }
 
@@ -116,5 +132,11 @@ object DataModule {
     @Provides
     fun provideTagsDao(appDatabase: AppDatabase): TagsDao {
         return appDatabase.tagsDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideBookmarkDao(appDatabase: AppDatabase): BookmarkDao {
+        return appDatabase.bookmarkDao()
     }
 }

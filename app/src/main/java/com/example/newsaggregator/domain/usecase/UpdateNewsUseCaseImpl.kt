@@ -6,6 +6,6 @@ import javax.inject.Inject
 class UpdateNewsUseCaseImpl @Inject constructor(private val newsRepository: NewsRepository) :
     UpdateNewsUseCase {
     override suspend fun execute(query: String?) {
-        return newsRepository.updateAll(query = query)
+        newsRepository.updateAll(query = query)
     }
 }

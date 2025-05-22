@@ -5,6 +5,7 @@ import androidx.compose.ui.graphics.Color
 
 // Палитра для светлой темы
 val White = Color(0xFFFDFDFD) // фон
+val Blue = Color(0xFF052961) // цвет топ бара
 val Black = Color(0xFF010101) // текст
 val Black05 = Color(0xFFF2F2F2) // фон Card
 val Black15 = Color(0xFFD9D9D9) // фон тэгов
@@ -26,6 +27,8 @@ val Gray40 = Color(0xFF707474) // shimmer highlight
  *
  * @property primary Основной акцентный цвет.
  * @property onPrimary Цвет содержимого на фоне primary.
+ * @property secondary Второстепенный акцентный цвет.
+ * @property onSecondary Цвет содержимого на фоне secondary.
  * @property background Фоновый цвет экрана.
  * @property onBackground Цвет содержимого на фоне background.
  * @property surfacePrimary Фоновый цвет поверхностей (Card, BottomSheet и т.д.).
@@ -40,6 +43,8 @@ val Gray40 = Color(0xFF707474) // shimmer highlight
 data class AppColorScheme(
     val primary: Color,
     val onPrimary: Color,
+    val secondary: Color,
+    val onSecondary: Color,
     val background: Color,
     val onBackground: Color,
     val surfacePrimary: Color,
@@ -58,6 +63,8 @@ data class AppColorScheme(
 val LightColorScheme = AppColorScheme(
     primary = Black05,
     onPrimary = Black,
+    secondary = Blue,
+    onSecondary = White,
     background = White,
     onBackground = Black,
     surfacePrimary = Black05,
@@ -76,6 +83,8 @@ val LightColorScheme = AppColorScheme(
 val DarkColorScheme = AppColorScheme(
     primary = Gray90,
     onPrimary = White100,
+    secondary = Blue,
+    onSecondary = White,
     background = Black90,
     onBackground = White100,
     surfacePrimary = Gray90,

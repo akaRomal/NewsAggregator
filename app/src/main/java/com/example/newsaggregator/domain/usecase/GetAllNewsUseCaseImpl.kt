@@ -7,7 +7,5 @@ import javax.inject.Inject
 
 class GetAllNewsUseCaseImpl @Inject constructor(private val newsRepository: NewsRepository) :
     GetAllNewsUseCase {
-    override fun execute(): Flow<List<NewsArticle>> {
-       return newsRepository.getAllNews()
-    }
+    override fun execute(): Flow<List<NewsArticle>> = newsRepository.getAllNews()
 }

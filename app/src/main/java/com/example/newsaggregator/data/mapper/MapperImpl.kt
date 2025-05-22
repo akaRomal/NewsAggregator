@@ -3,8 +3,10 @@ package com.example.newsaggregator.data.mapper
 import com.example.newsaggregator.data.local.entity.ArticleEntity
 import com.example.newsaggregator.data.local.entity.ArticleTagEntity
 import com.example.newsaggregator.data.local.entity.ArticleWithTags
+import com.example.newsaggregator.data.local.entity.BookmarkEntity
 import com.example.newsaggregator.data.remote.rss.dto.ItemDto
 import com.example.newsaggregator.data.remote.rss.dto.RssDto
+import com.example.newsaggregator.domain.model.Bookmark
 import com.example.newsaggregator.domain.model.NewsArticle
 import org.jsoup.Jsoup
 import java.text.ParseException
@@ -22,12 +24,25 @@ class MapperImpl : Mapper {
         return articlesWithTags.map { item ->
             NewsArticle(
                 title = item.article.title,
-                description = item.article.description.getDescription(),
+                description = item.article.description,
                 imageUrl = item.article.imageUrl,
                 articleUrl = item.article.guid,
                 author = item.article.author,
                 date = item.article.date,
                 tags = item.tags.map { it.tag }
+            )
+        }
+    }
+
+    override fun fromBookmarkToDomain(bookmarkEntity: List<BookmarkEntity>): List<Bookmark> {
+        return bookmarkEntity.map { item ->
+            Bookmark(
+                title = item.title,
+                description = item.description,
+                imageUrl = item.imageUrl,
+                articleUrl = item.guid,
+                author = item.author,
+                date = item.date,
             )
         }
     }
@@ -44,7 +59,7 @@ class MapperImpl : Mapper {
     private fun ItemDto.toArticleEntity() = ArticleEntity(
         guid = guid,
         title = title,
-        description = description,
+        description = description.getDescription(),
         imageUrl = contents.firstOrNull()?.url.orEmpty(),
         author = dcCreator,
         date = pubDate.formatedDate()

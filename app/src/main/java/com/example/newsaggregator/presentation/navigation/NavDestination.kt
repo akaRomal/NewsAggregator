@@ -5,9 +5,14 @@ import kotlinx.serialization.Serializable
 @Serializable
 sealed interface NavDestination {
     @Serializable
-    data object Home: NavDestination
+    data class Home(val query: String? = null) : NavDestination
+
     @Serializable
-    data object Article: NavDestination
+    data class Reader(val url: String? = null) : NavDestination
+
     @Serializable
-    data object Bookmark: NavDestination
+    data object Search : NavDestination
+
+    @Serializable
+    data object Bookmark : NavDestination
 }
