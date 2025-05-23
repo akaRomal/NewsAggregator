@@ -12,8 +12,10 @@ import com.example.newsaggregator.data.mapper.MapperImpl
 import com.example.newsaggregator.data.remote.rss.RssFeed
 import com.example.newsaggregator.data.repository.BookmarkRepositoryImpl
 import com.example.newsaggregator.data.repository.NewsRepositoryImpl
+import com.example.newsaggregator.data.repository.SearchRepositoryImpl
 import com.example.newsaggregator.domain.repository.BookmarkRepository
 import com.example.newsaggregator.domain.repository.NewsRepository
+import com.example.newsaggregator.domain.repository.SearchRepository
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
@@ -49,7 +51,6 @@ object DataModule {
         )
     }
 
-
     @Singleton
     @Provides
     fun provideBookmarkRepository(
@@ -60,6 +61,12 @@ object DataModule {
             bookmarkDao = bookmarkDao,
             mapper = mapper
         )
+    }
+
+    @Singleton
+    @Provides
+    fun provideSearchRepository(articlesDao: ArticlesDao): SearchRepository {
+        return SearchRepositoryImpl(articlesDao = articlesDao)
     }
 
     @Singleton

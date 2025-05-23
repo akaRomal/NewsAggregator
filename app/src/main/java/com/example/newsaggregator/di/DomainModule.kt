@@ -2,6 +2,7 @@ package com.example.newsaggregator.di
 
 import com.example.newsaggregator.domain.repository.BookmarkRepository
 import com.example.newsaggregator.domain.repository.NewsRepository
+import com.example.newsaggregator.domain.repository.SearchRepository
 import com.example.newsaggregator.domain.usecase.AddBookmarkUseCase
 import com.example.newsaggregator.domain.usecase.AddBookmarkUseCaseImpl
 import com.example.newsaggregator.domain.usecase.DeleteBookmarkUseCase
@@ -14,6 +15,8 @@ import com.example.newsaggregator.domain.usecase.GetNewsUseCase
 import com.example.newsaggregator.domain.usecase.GetNewsUseCaseImpl
 import com.example.newsaggregator.domain.usecase.IsBookmarkedUseCase
 import com.example.newsaggregator.domain.usecase.IsBookmarkedUseCaseImpl
+import com.example.newsaggregator.domain.usecase.SearchByQueryUseCase
+import com.example.newsaggregator.domain.usecase.SearchByQueryUseCaseImpl
 import com.example.newsaggregator.domain.usecase.SearchByTagUseCase
 import com.example.newsaggregator.domain.usecase.SearchByTagUseCaseImpl
 import com.example.newsaggregator.domain.usecase.SortedByDateUseCase
@@ -88,6 +91,14 @@ object DomainModule {
     fun providesGetAllBookmarksUseCase(bookmarkRepository: BookmarkRepository): GetAllBookmarksUseCase {
         return GetAllBookmarksUseCaseImpl(
             bookmarkRepository = bookmarkRepository
+        )
+    }
+
+    @Singleton
+    @Provides
+    fun providesSearchByQueryUseCase(searchRepository: SearchRepository): SearchByQueryUseCase {
+        return SearchByQueryUseCaseImpl(
+            searchRepository = searchRepository
         )
     }
 }

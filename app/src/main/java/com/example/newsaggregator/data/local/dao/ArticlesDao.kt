@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import com.example.newsaggregator.data.local.entity.ArticleEntity
+import com.example.newsaggregator.data.local.entity.ArticleSearchItem
 import com.example.newsaggregator.data.local.entity.ArticleTagEntity
 import com.example.newsaggregator.data.local.entity.ArticleWithTags
 
@@ -30,12 +31,19 @@ interface ArticlesDao {
     @Transaction
     @Query(
         "SELECT * FROM ${ArticleEntity.TABLE_NAME}" +
-            " WHERE ${ArticleEntity.GUID}" +
-            " IN (  SELECT ${ArticleTagEntity.ARTICLE_GUID}" +
-            " FROM ${ArticleTagEntity.TABLE_NAME}" +
-            " WHERE ${ArticleTagEntity.TAG} = :tag)"
+                " WHERE ${ArticleEntity.GUID}" +
+                " IN (  SELECT ${ArticleTagEntity.ARTICLE_GUID}" +
+                " FROM ${ArticleTagEntity.TABLE_NAME}" +
+                " WHERE ${ArticleTagEntity.TAG} = :tag)"
     )
     fun searchArticlesWithTag(tag: String): List<ArticleWithTags>
+
+    @Query("SELECT ${ArticleEntity.GUID} AS ${ArticleEntity.GUID}, " +
+            "${ArticleEntity.TITLE} AS ${ArticleEntity.TITLE}, " +
+            "${ArticleEntity.DESCRIPTION} AS ${ArticleEntity.DESCRIPTION} " +
+            "FROM ${ArticleEntity.TABLE_NAME} " +
+            "WHERE ${ArticleEntity.TITLE} LIKE ''%'' || UPPER(:query) || ''%'' OR ${ArticleEntity.DESCRIPTION} LIKE ''%'' || UPPER(:query) || ''%''")
+    fun searchByQuery(query: String): List<ArticleSearchItem>
 
     @Transaction
     @Query("SELECT * FROM ${ArticleEntity.TABLE_NAME}")

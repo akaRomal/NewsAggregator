@@ -15,7 +15,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -38,17 +38,12 @@ import com.example.newsaggregator.presentation.ui.theme.AppTheme
 @Composable
 fun ArticlesScreen(
     navController: NavHostController,
+    topBarColors: TopAppBarColors,
     modifier: Modifier = Modifier,
     query: String? = null,
     viewModel: ArticlesViewModel = hiltViewModel<ArticlesViewModel>()
 ) {
     val state by viewModel.uiState.collectAsState()
-    val topBarColors = TopAppBarDefaults.topAppBarColors().copy(
-        containerColor = AppTheme.colorsScheme.secondary,
-        navigationIconContentColor = AppTheme.colorsScheme.onSecondary,
-        titleContentColor = AppTheme.colorsScheme.onSecondary,
-        actionIconContentColor = AppTheme.colorsScheme.onSecondary,
-    )
     Scaffold(
         modifier = modifier
             .background(AppTheme.colorsScheme.background)

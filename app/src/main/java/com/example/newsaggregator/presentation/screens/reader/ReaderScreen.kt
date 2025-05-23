@@ -16,7 +16,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -41,16 +41,11 @@ import com.example.newsaggregator.presentation.ui.theme.AppTheme
 @Composable
 fun ReaderScreen(
     navController: NavHostController,
+    topBarColors: TopAppBarColors,
     modifier: Modifier = Modifier,
     urlArticle: String? = null,
     viewModel: ReaderViewModel = hiltViewModel<ReaderViewModel>()
 ) {
-    val topBarColors = TopAppBarDefaults.topAppBarColors().copy(
-        containerColor = AppTheme.colorsScheme.secondary,
-        navigationIconContentColor = AppTheme.colorsScheme.onSecondary,
-        titleContentColor = AppTheme.colorsScheme.onSecondary,
-        actionIconContentColor = AppTheme.colorsScheme.onSecondary,
-    )
     LaunchedEffect(urlArticle) {
         viewModel.handleEvent(ReaderEvent.UpdateUrl(urlArticle))
     }
