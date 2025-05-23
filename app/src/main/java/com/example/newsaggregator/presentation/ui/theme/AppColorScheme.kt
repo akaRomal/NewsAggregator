@@ -7,6 +7,7 @@ import androidx.compose.ui.graphics.Color
 val White = Color(0xFFFDFDFD) // фон
 val Blue = Color(0xFF052961) // цвет топ бара
 val Black = Color(0xFF010101) // текст
+val Red = Color(0xFFE33E31) // цвет ошибки
 val Black05 = Color(0xFFF2F2F2) // фон Card
 val Black15 = Color(0xFFD9D9D9) // фон тэгов
 val Black30 = Color(0xFFB3B3B3) // бордер Card
@@ -58,6 +59,7 @@ data class AppColorScheme(
     val icon: Color,
     val shimmerBase: Color,
     val shimmerHighlight: Color,
+    val error: Color,
 )
 
 val LightColorScheme = AppColorScheme(
@@ -78,6 +80,7 @@ val LightColorScheme = AppColorScheme(
     icon = Black05.copy(alpha = 0.9f),
     shimmerBase = Gray30,
     shimmerHighlight = Gray75,
+    error = Red,
 )
 
 val DarkColorScheme = AppColorScheme(
@@ -98,6 +101,7 @@ val DarkColorScheme = AppColorScheme(
     icon = Gray90.copy(alpha = 0.9f),
     shimmerBase = Gray50,
     shimmerHighlight = Gray40,
+    error = Red,
 )
 
 val LocalAppColorScheme = compositionLocalOf {

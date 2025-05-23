@@ -25,15 +25,16 @@ fun ArticlesShimmerEffect(
     contentAfterLoading: @Composable () -> Unit
 ) {
     if (isLoading) {
-        Column(modifier = modifier.fillMaxSize()) {
+        Column(modifier = modifier.fillMaxSize().padding(horizontal = AppTheme.size.micro)) {
             Row(
+                modifier = Modifier.padding(top = AppTheme.size.small),
                 horizontalArrangement = Arrangement.spacedBy(AppTheme.size.small)
             ) {
                 repeat(3) {
                     Box(
                         modifier = Modifier
-                            .height(AppTheme.size.medium)
-                            .width(AppTheme.size.imageHeight)
+                            .height(AppTheme.size.mediumLarge)
+                            .weight(AppTheme.size.fullWidth)
                             .clip(AppTheme.shapes.image)
                             .shimmerEffect()
                     )

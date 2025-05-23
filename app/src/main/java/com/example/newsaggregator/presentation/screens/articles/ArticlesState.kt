@@ -11,4 +11,5 @@ data class ArticlesState(
     val tagCloudItems: List<String> = emptyList(),
     val selectedTag: String = "",
     val newsArticleItems: List<NewsArticleItem> = emptyList(),
+    val dateSortAsc: Boolean = false,
 )

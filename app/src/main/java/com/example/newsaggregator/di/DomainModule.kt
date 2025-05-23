@@ -8,14 +8,16 @@ import com.example.newsaggregator.domain.usecase.DeleteBookmarkUseCase
 import com.example.newsaggregator.domain.usecase.DeleteBookmarkUseCaseImpl
 import com.example.newsaggregator.domain.usecase.GetAllBookmarksUseCase
 import com.example.newsaggregator.domain.usecase.GetAllBookmarksUseCaseImpl
-import com.example.newsaggregator.domain.usecase.GetAllNewsUseCase
-import com.example.newsaggregator.domain.usecase.GetAllNewsUseCaseImpl
 import com.example.newsaggregator.domain.usecase.GetAllTagsUseCase
 import com.example.newsaggregator.domain.usecase.GetAllTagsUseCaseImpl
+import com.example.newsaggregator.domain.usecase.GetNewsUseCase
+import com.example.newsaggregator.domain.usecase.GetNewsUseCaseImpl
 import com.example.newsaggregator.domain.usecase.IsBookmarkedUseCase
 import com.example.newsaggregator.domain.usecase.IsBookmarkedUseCaseImpl
-import com.example.newsaggregator.domain.usecase.UpdateNewsUseCase
-import com.example.newsaggregator.domain.usecase.UpdateNewsUseCaseImpl
+import com.example.newsaggregator.domain.usecase.SearchByTagUseCase
+import com.example.newsaggregator.domain.usecase.SearchByTagUseCaseImpl
+import com.example.newsaggregator.domain.usecase.SortedByDateUseCase
+import com.example.newsaggregator.domain.usecase.SortedByDateUseCaseImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,16 +29,8 @@ import javax.inject.Singleton
 object DomainModule {
     @Singleton
     @Provides
-    fun provideUpdateNewsUseCase(newsRepository: NewsRepository): UpdateNewsUseCase {
-        return UpdateNewsUseCaseImpl(
-            newsRepository = newsRepository
-        )
-    }
-
-    @Singleton
-    @Provides
-    fun provideGetAllNewsUseCase(newsRepository: NewsRepository): GetAllNewsUseCase {
-        return GetAllNewsUseCaseImpl(
+    fun provideGetNewsUseCase(newsRepository: NewsRepository): GetNewsUseCase {
+        return GetNewsUseCaseImpl(
             newsRepository = newsRepository
         )
     }
@@ -45,6 +39,22 @@ object DomainModule {
     @Provides
     fun providesGetAllTagsUseCase(newsRepository: NewsRepository): GetAllTagsUseCase {
         return GetAllTagsUseCaseImpl(
+            newsRepository = newsRepository
+        )
+    }
+
+    @Singleton
+    @Provides
+    fun providesSortedByDateUseCaseUseCase(newsRepository: NewsRepository): SortedByDateUseCase {
+        return SortedByDateUseCaseImpl(
+            newsRepository = newsRepository
+        )
+    }
+
+    @Singleton
+    @Provides
+    fun providesSearchByTagUseCase(newsRepository: NewsRepository): SearchByTagUseCase {
+        return SearchByTagUseCaseImpl(
             newsRepository = newsRepository
         )
     }

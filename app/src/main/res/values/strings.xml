@@ -3,12 +3,19 @@
 
     <string name="image_add_to_bookmarks">Add to bookmarks icon</string>
     <string name="image_article">Image of news %1$s</string>
+    <string name="image_top_bar_sort">sort</string>
+    <string name="image_top_bar_refresh">refresh</string>
 
     <string name="btn_menu_home">Home</string>
     <string name="btn_menu_search">Search</string>
     <string name="btn_menu_bookmark">Bookmarks</string>
+
     <string name="text_top_bar_back">back</string>
     <string name="text_top_bar_share">Share link</string>
     <string name="text_top_bar_bookmark">Boormarks</string>
     <string name="text_top_bar_home">The Guardian</string>
+
+    <string name="text_error_unknown">Unknown error</string>
+    <string name="text_error_network">No internet connection</string>
+    <string name="text_error_timeout">Connection timeout</string>
 </resources>

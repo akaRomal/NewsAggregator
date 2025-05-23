@@ -3,9 +3,11 @@ package com.example.newsaggregator.presentation.screens.articles
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.newsaggregator.di.MapperPresentation
-import com.example.newsaggregator.domain.usecase.GetAllNewsUseCase
+import com.example.newsaggregator.domain.model.Errors
 import com.example.newsaggregator.domain.usecase.GetAllTagsUseCase
-import com.example.newsaggregator.domain.usecase.UpdateNewsUseCase
+import com.example.newsaggregator.domain.usecase.GetNewsUseCase
+import com.example.newsaggregator.domain.usecase.SearchByTagUseCase
+import com.example.newsaggregator.domain.usecase.SortedByDateUseCase
 import com.example.newsaggregator.presentation.mapper.Mapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -17,18 +19,18 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ArticlesViewModel @Inject constructor(
-    private val updateNewsUseCase: UpdateNewsUseCase,
-    private val getAllNewsUseCase: GetAllNewsUseCase,
+    private val getNewsUseCase: GetNewsUseCase,
     private val getAllTagsUseCase: GetAllTagsUseCase,
+    private val sortedByDateUseCase: SortedByDateUseCase,
+    private val searchByTagUseCase: SearchByTagUseCase,
     @MapperPresentation private val mapper: Mapper,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(ArticlesState())
     val uiState: StateFlow<ArticlesState> = _uiState
 
     init {
-        updateAllNews()
-        getAllTags()
         getAllNews()
+        getAllTags()
     }
 
     fun handleEvent(event: ArticlesEvent) {
@@ -36,21 +38,7 @@ class ArticlesViewModel @Inject constructor(
             is ArticlesEvent.SearchByTag -> searchByTag(event.tag)
             is ArticlesEvent.SearchByQuery -> searchByQuery(event.query)
             ArticlesEvent.SortByTime -> sortByTime()
-        }
-    }
-
-    private fun getAllNews() {
-        viewModelScope.launch(Dispatchers.IO) {
-            getAllNewsUseCase.execute()
-                .collect { newsList ->
-                    val newsItems = mapper.fromNewsArticleToNewsArticleItem(newsList)
-                    withContext(Dispatchers.Main) {
-                        _uiState.value = _uiState.value.copy(
-                            isLoading = false,
-                            newsArticleItems = newsItems
-                        )
-                    }
-                }
+            ArticlesEvent.Update -> getAllNews()
         }
     }
 
@@ -67,22 +55,56 @@ class ArticlesViewModel @Inject constructor(
         }
     }
 
-    private fun updateAllNews() {
+    private fun getAllNews() {
         viewModelScope.launch(Dispatchers.IO) {
             _uiState.value = _uiState.value.copy(isLoading = true)
-            updateNewsUseCase.execute(query = null)
+            val response = getNewsUseCase.execute()
+            val newsItems = mapper.fromNewsArticleToNewsArticleItem(response.newsArticles)
+            withContext(Dispatchers.Main) {
+                _uiState.value = _uiState.value.copy(
+                    isLoading = false,
+                    isServerError = response.error == Errors.HTTP,
+                    isNetworkError = response.error == Errors.NETWORK,
+                    isTimeoutError = response.error == Errors.TIMEOUT,
+                    isUnknownError = response.error == Errors.UNKNOWN,
+                    selectedTag = "",
+                    newsArticleItems = newsItems
+                )
+            }
         }
     }
 
     private fun searchByTag(tag: String) {
-        // TODO()
+        viewModelScope.launch(Dispatchers.IO) {
+            val newsItems = mapper.fromNewsArticleToNewsArticleItem(
+                searchByTagUseCase.execute(tag = tag)
+            )
+            withContext(Dispatchers.Main) {
+                _uiState.value = _uiState.value.copy(
+                    selectedTag = tag,
+                    newsArticleItems = newsItems
+                )
+            }
+        }
     }
 
-    private fun searchByQuery(tag: String) {
+    private fun searchByQuery(query: String) {
         // TODO()
     }
 
     private fun sortByTime() {
-        // TODO()
+        val dateSortUp = !_uiState.value.dateSortAsc
+
+        viewModelScope.launch(Dispatchers.IO) {
+            val newsItems = mapper.fromNewsArticleToNewsArticleItem(
+                sortedByDateUseCase.execute(sortedAsc = dateSortUp)
+            )
+            withContext(Dispatchers.Main) {
+                _uiState.value = _uiState.value.copy(
+                    dateSortAsc = dateSortUp,
+                    newsArticleItems = newsItems
+                )
+            }
+        }
     }
 }

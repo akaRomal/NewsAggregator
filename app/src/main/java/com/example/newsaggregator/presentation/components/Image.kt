@@ -6,8 +6,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Close
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -15,10 +13,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import coil3.compose.AsyncImagePainter
 import coil3.compose.rememberAsyncImagePainter
 import coil3.request.ImageRequest
 import coil3.request.crossfade
+import com.example.newsaggregator.R
 import com.example.newsaggregator.presentation.extensions.shimmerEffect
 import com.example.newsaggregator.presentation.ui.theme.AppTheme
 
@@ -52,7 +52,7 @@ fun Image(
 
             is AsyncImagePainter.State.Error -> {
                 Image(
-                    imageVector = Icons.Outlined.Close,
+                    painter = painterResource(id = R.drawable.ic_error_image),
                     contentDescription = description,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.fillMaxSize()

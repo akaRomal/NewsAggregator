@@ -10,6 +10,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -18,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -25,6 +28,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import com.example.newsaggregator.R
 import com.example.newsaggregator.presentation.components.CustomBottomBar
+import com.example.newsaggregator.presentation.components.ErrorText
 import com.example.newsaggregator.presentation.components.NewsArticleCard
 import com.example.newsaggregator.presentation.components.TagsContainer
 import com.example.newsaggregator.presentation.navigation.NavDestination
@@ -51,6 +55,16 @@ fun ArticlesScreen(
             .fillMaxSize(),
         topBar = {
             TopAppBar(
+                navigationIcon = {
+                    IconButton(onClick = {
+                        viewModel.handleEvent(ArticlesEvent.Update)
+                    }) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_refresh),
+                            contentDescription = stringResource(id = R.string.image_top_bar_refresh)
+                        )
+                    }
+                },
                 title = {
                     Text(
                         text = stringResource(id = R.string.text_top_bar_home),
@@ -58,6 +72,16 @@ fun ArticlesScreen(
                         textAlign = TextAlign.Center,
                         style = AppTheme.typography.headlineLarge
                     )
+                },
+                actions = {
+                    IconButton(onClick = {
+                        viewModel.handleEvent(ArticlesEvent.SortByTime)
+                    }) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_sort),
+                            contentDescription = stringResource(id = R.string.image_top_bar_sort)
+                        )
+                    }
                 },
                 colors = topBarColors
             )
@@ -74,7 +98,6 @@ fun ArticlesScreen(
             isLoading = state.isLoading,
             modifier = Modifier
                 .padding(paddingValues)
-                .padding(horizontal = AppTheme.size.medium)
         ) {
             LazyColumn(
                 modifier = Modifier
@@ -82,11 +105,11 @@ fun ArticlesScreen(
                     .padding(paddingValues)
             ) {
                 if (state.isUnknownError) {
-                    item { Text(text = "Неизвестная ошибка") }
+                    item { ErrorText(R.string.text_error_unknown) }
                 } else if (state.isTimeoutError) {
-                    item { Text(text = "Таймаут соединения") }
+                    item { ErrorText(R.string.text_error_timeout) }
                 } else if (state.isNetworkError) {
-                    item { Text(text = "Нет соеденения с интернетом") }
+                    item { ErrorText(R.string.text_error_network) }
                 }
 
                 if (!state.tagCloudItems.isEmpty()) {
@@ -132,7 +155,7 @@ fun ArticlesScreen(
                         descriptionArticle = newsItem.description,
                         date = newsItem.date,
                         author = newsItem.author,
-                        modifier = Modifier.padding(horizontal = AppTheme.size.medium),
+                        modifier = Modifier.padding(horizontal = AppTheme.size.micro),
                         tags = newsItem.tag,
                         onClickTag = {
                             viewModel.handleEvent(

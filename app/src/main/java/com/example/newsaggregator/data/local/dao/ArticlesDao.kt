@@ -8,7 +8,6 @@ import androidx.room.Transaction
 import com.example.newsaggregator.data.local.entity.ArticleEntity
 import com.example.newsaggregator.data.local.entity.ArticleTagEntity
 import com.example.newsaggregator.data.local.entity.ArticleWithTags
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ArticlesDao {
@@ -27,10 +26,28 @@ interface ArticlesDao {
         insertTags(news.flatMap { it.tags })
     }
 
+
+    @Transaction
+    @Query(
+        "SELECT * FROM ${ArticleEntity.TABLE_NAME}" +
+            " WHERE ${ArticleEntity.GUID}" +
+            " IN (  SELECT ${ArticleTagEntity.ARTICLE_GUID}" +
+            " FROM ${ArticleTagEntity.TABLE_NAME}" +
+            " WHERE ${ArticleTagEntity.TAG} = :tag)"
+    )
+    fun searchArticlesWithTag(tag: String): List<ArticleWithTags>
+
     @Transaction
     @Query("SELECT * FROM ${ArticleEntity.TABLE_NAME}")
-    fun getAllArticlesWithTags(): Flow<List<ArticleWithTags>>
+    fun getAllArticlesWithTags(): List<ArticleWithTags>
 
+    @Transaction
+    @Query("SELECT * FROM ${ArticleEntity.TABLE_NAME} ORDER BY ${ArticleEntity.DATE} ASC")
+    fun getAllArticlesWithTagsSortedByDateAsc(): List<ArticleWithTags>
+
+    @Transaction
+    @Query("SELECT * FROM ${ArticleEntity.TABLE_NAME} ORDER BY ${ArticleEntity.DATE} DESC")
+    fun getAllArticlesWithTagsSortedByDateDesc(): List<ArticleWithTags>
 
     @Query("DELETE FROM ${ArticleEntity.TABLE_NAME}")
     suspend fun deleteAll()
